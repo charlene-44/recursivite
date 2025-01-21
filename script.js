@@ -50,22 +50,52 @@ function showFile(dossierPrincipal) {
   console.log(`🗂️ ${dossierPrincipal.nom}`);
 }
 
-//Étape 2 : création de deux fonctions différentes
+//Étape 2 : création de deux fonctions différentes ainsi qu'Étape 3
 function showIterativeFolder(dossierPrincipal) {
-showFile(dossierPrincipal);
-// Accède à la liste d'éléments principaux
-let dossiers = dossierPrincipal.contenu;
+  let stack = [{ folder: dossierPrincipal, depth: 0 }];
 
-// Parcourir et afficher les noms des éléments principaux
-for (let element of dossiers) {
-   if (element.contenu) {
-        console.log(`🗂️ ${element.nom}`);
-    } else {
-        console.log(`📑 ${element.nom}`); 
+  // Affiche le dossier principal une seule fois
+  showFile(dossierPrincipal);
+
+  while (stack.length > 0) {
+    let elementWithDepth = stack.pop();
+    let element = elementWithDepth.folder;
+
+    if (
+      element !== dossierPrincipal &&
+      element.contenu &&
+      Array.isArray(element.contenu)
+    ) {
+      showFile(element); // Affiche les sous-dossiers avec leur icône
+    } else if (element !== dossierPrincipal) {
+      console.log(`📑 ${element.nom}`); // Affiche les fichiers avec leur icône
+    }
+
+    if (element.contenu && Array.isArray(element.contenu)) {
+      for (let i = element.contenu.length - 1; i >= 0; i--) {
+        stack.push({
+          folder: element.contenu[i],
+          depth: elementWithDepth.depth + 1,
+        });
+      }
     }
   }
 }
 
+// Appel de la fonction itérative avec ordre correct des dossiers et fichiers
 showIterativeFolder(dossierPrincipal);
 
-
+function showRecursiveFolder(folder) {
+  if (Array.isArray(folder)) {
+    folder.forEach((subFolder) => {
+      if (subFolder.contenu && Array.isArray(subFolder.contenu)) {
+        console.log(`🗂️ ${subFolder.nom}`);
+        showRecursiveFolder(subFolder.contenu);
+      } else {
+        console.log(`📑 ${subFolder.nom}`);
+      }
+    });
+  }
+}
+showFile(dossierPrincipal);
+showRecursiveFolder(dossierPrincipal.contenu);
