@@ -50,7 +50,7 @@ function showFile(dossierPrincipal) {
   console.log(`🗂️ ${dossierPrincipal.nom}`);
 }
 
-//Étape 2 : création de deux fonctions différentes ainsi qu'Étape 3
+//Étape 2 : création de deux fonctions différentes ainsi qu'Étape 3, affichage de tous les dossiers et fichiers
 function showIterativeFolder(dossierPrincipal) {
   let stack = [{ folder: dossierPrincipal, depth: 0 }];
 
@@ -99,3 +99,17 @@ function showRecursiveFolder(folder) {
 }
 showFile(dossierPrincipal);
 showRecursiveFolder(dossierPrincipal.contenu);
+
+
+// Étape 4 : comparaison des deux fonctions
+// Je trouve que la récursivité est plus simple à lire et à comprendre alors que la fonction itérative me paraît plus complexe
+
+// Avantages & inconvénients de la fonction itérative :
+// Avantages : elle est plus performante terme de consommation de mémoire,
+// elle est plus prévisible et permet une certaine simplicité pour des structures limitées
+// Inconvénients : code moins lisible, et plus difficile à maintenir, c'est moins intuitif pour les arborescences
+
+// Avantages & inconvénients de la fonction récursive : 
+// Avantages : elle est plus souvent intuitive et reflète directement la structure des fichiers, elle est plus flexible et le code est plus lisible, plus facile à comprendre
+// Inconvénients : elle peut vite être dépassée si la structure est trop grande à gérer et ça la rend donc instable et au niveau de la performance, dans certains langages
+// elle peut être gourmande en terme de consommation de mémoire ou scénarios à cause des appels récursifs
