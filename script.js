@@ -85,18 +85,19 @@ function showIterativeFolder(dossierPrincipal) {
 // Appel de la fonction itérative avec ordre correct des dossiers et fichiers
 showIterativeFolder(dossierPrincipal);
 
-function showRecursiveFolder(folder) {
-  if (Array.isArray(folder)) {
-    folder.forEach((subFolder) => {
-      if (subFolder.contenu && Array.isArray(subFolder.contenu)) {
-        console.log(`🗂️ ${subFolder.nom}`);
-        showRecursiveFolder(subFolder.contenu);
-      } else {
-        console.log(`📑 ${subFolder.nom}`);
-      }
-    });
+function showRecursiveFolder(folder, index = 0) {
+  if (index < folder.length) {
+    const subFolder = folder[index];
+    if (subFolder.contenu && Array.isArray(subFolder.contenu)) {
+      console.log(`🗂️ ${subFolder.nom}`);
+      showRecursiveFolder(subFolder.contenu); 
+    } else {
+      console.log(`📑 ${subFolder.nom}`);
+    }
+    showRecursiveFolder(folder, index + 1);
   }
 }
+
 showFile(dossierPrincipal);
 showRecursiveFolder(dossierPrincipal.contenu);
 
